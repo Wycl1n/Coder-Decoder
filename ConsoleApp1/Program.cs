@@ -7,39 +7,9 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            string t = CodeMessage("HelloWorld123");
+            string t = CodeMessage(Console.ReadLine());
             Console.WriteLine(t);
             Console.WriteLine(DecodeMessage(t));
-
-            /*
-            byte action = 1;
-            while (action != 0) 
-            {
-                Console.WriteLine("Choose what you wanna do");
-                Console.WriteLine("1) Code");
-                Console.WriteLine("2) Decode");
-                Console.WriteLine("0) Exit");
-                action = Convert.ToByte(Console.ReadLine());
-                switch (action)
-                {
-                    case 1:
-                        Codemessage(Console.ReadLine());
-                        Console.WriteLine("message already coded");
-                        break;
-                    case 2:
-                        Console.WriteLine("Write your message in \"input.txt\", save and input smth");
-                        Console.ReadKey();
-                        string decodedmessage = Decodemessage("C:\\input.txt");
-                        Console.WriteLine("message ucoded");
-                        Console.WriteLine(decodedmessage);
-                        break;
-                    case 0:
-                        break;
-                    default:
-                        break;
-                }
-            }
-            */
         }
 
 
@@ -59,23 +29,33 @@ namespace ConsoleApp1
                 if (!check) return "Invalid input";
             }
 
+            char[] symbols = new char[62];
+            byte tI = 0;
+            for (int i = 65; i <= 90; i++)
+                symbols[tI++] = (char)i;
+            for (int i = 48; i <= 57; i++)
+                symbols[tI++] = (char)i;
+            for (int i = 97; i <= 122; i++)
+                symbols[tI++] = (char)i;
+
             Random rand = new Random();
+            string tNumber = "";
+            for (int i = 0; i < message.Length; i++)
+                tNumber += symbols[rand.Next() % 62];
             string resultString = "";
-            string randomString = "";
             for (int i = 0; i < message.Length; i++)
             {
-                randomString += (char)(rand.Next() % 200);
-                resultString += (char)(((int)message[i] + (int)randomString[i]));
+                resultString += (char)((int)message[i] + (int)tNumber[i]);
+                resultString += tNumber[message.Length - 1 - i];
             }
-            resultString += randomString;
             return resultString;
         }
         public static string DecodeMessage(string codedMessage)
         {
             string resultString = "";
-            for (int i = 0; i < codedMessage.Length / 2; i++) 
+            for (int i = 0; i < codedMessage.Length; i+=2) 
             {
-                resultString += (char)((int)codedMessage[i] - (int)codedMessage[i + codedMessage.Length / 2]);
+                resultString += (char)((int)codedMessage[i] - (int)codedMessage[codedMessage.Length - 1 - i]);
             }
 
             return resultString;

@@ -16,27 +16,25 @@ namespace ConsoleApp1
         public static string CodeMessage(string message)
         {
             bool check;
-            if (message.Length > 20 || message.Length < 10) return "Invalid input";
-            for (int i = 0;i<message.Length;i++)
-            {
-                check = false;
-                for (int j = 48; j <= 57; j++)
-                    if (message[i] == (char)j) check = true;
-                for (int j = 65; j <= 90; j++)
-                    if (message[i] == (char)j) check = true;
-                for (int j = 97; j <= 122; j++)
-                    if (message[i] == (char)j) check = true;
-                if (!check) return "Invalid input";
-            }
-
-            char[] symbols = new char[62];
-            byte tI = 0;
+            //if (message.Length > 20 || message.Length < 10) return "Invalid input";
+            char[] symbols = new char[63];
+            symbols[0] = '_';
+            byte tI = 1;
             for (int i = 65; i <= 90; i++)
                 symbols[tI++] = (char)i;
             for (int i = 48; i <= 57; i++)
                 symbols[tI++] = (char)i;
             for (int i = 97; i <= 122; i++)
                 symbols[tI++] = (char)i;
+            for (int i = 0; i < message.Length; i++)
+            {
+                check = false;
+                for (int j = 0; j < 63; j++)
+                    if (message[i] == symbols[j])
+                        check = true;
+                if (!check)
+                    return "Invalid input";
+            }
 
             Random rand = new Random();
             string tNumber = "";

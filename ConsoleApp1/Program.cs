@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace ConsoleApp1
@@ -7,9 +8,14 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            string t = CodeMessage(Console.ReadLine());
-            Console.WriteLine(t);
-            Console.WriteLine(DecodeMessage(t));
+            string t = Console.ReadLine();
+            Console.WriteLine(CodeMessage(t));
+            Console.WriteLine(DecodeMessage(CodeMessage(t)));
+            Console.WriteLine();
+
+            CodeMessageToFile(t, "D:\\text.txt");
+            DecodeMessage("D:\\text.txt");
+
         }
 
 
@@ -48,6 +54,14 @@ namespace ConsoleApp1
             }
             return resultString;
         }
+        public static void CodeMessageToFile(string message, string path)
+        {
+            using(StreamWriter file = new StreamWriter(path))
+            {
+                file.WriteLine(CodeMessage(message));
+            }
+        }
+
         public static string DecodeMessage(string codedMessage)
         {
             string resultString = "";
